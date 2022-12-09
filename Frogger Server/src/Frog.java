@@ -117,71 +117,71 @@ public class Frog extends Sprite {
         return false;
     }
 
-	public void moveFrog(KeyEvent e) {
-        int xPos = getX();
-        int yPos = getY();
+	// public void moveFrog(KeyEvent e) {
+    //     int xPos = getX();
+    //     int yPos = getY();
 
-        //modify position
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            yPos -= GameProperties.CHARACTER_STEP;
-            frogLabel.setIcon(getFrogImage());
-            if (yPos + getHeight() <= 0) {
-                yPos = GameProperties.SCREEN_HEIGHT;
-            }
+    //     //modify position
+    //     if (e.getKeyCode() == KeyEvent.VK_UP) {
+    //         yPos -= GameProperties.CHARACTER_STEP;
+    //         frogLabel.setIcon(getFrogImage());
+    //         if (yPos + getHeight() <= 0) {
+    //             yPos = GameProperties.SCREEN_HEIGHT;
+    //         }
 
-            // set x and y
-            setX(xPos);
-            setY(yPos);
+    //         // set x and y
+    //         setX(xPos);
+    //         setY(yPos);
 
-            splash();
+    //         splash();
 
 
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            yPos += GameProperties.CHARACTER_STEP;
-            frogLabel.setIcon(getFrogImageDown());
-            if (yPos >= GameProperties.SCREEN_HEIGHT) {
-                yPos = -1 * getHeight();
-            }
+    //     } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+    //         yPos += GameProperties.CHARACTER_STEP;
+    //         frogLabel.setIcon(getFrogImageDown());
+    //         if (yPos >= GameProperties.SCREEN_HEIGHT) {
+    //             yPos = -1 * getHeight();
+    //         }
 
-            // set x and y
-            setX(xPos);
-            setY(yPos);
+    //         // set x and y
+    //         setX(xPos);
+    //         setY(yPos);
 
-            splash();
+    //         splash();
 
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            xPos -= GameProperties.CHARACTER_STEP;
-            frogLabel.setIcon(getFrogImageLeft());
-            if (xPos + getWidth() <= 0) {
-                xPos = GameProperties.SCREEN_WIDTH;
-            }
+    //     } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+    //         xPos -= GameProperties.CHARACTER_STEP;
+    //         frogLabel.setIcon(getFrogImageLeft());
+    //         if (xPos + getWidth() <= 0) {
+    //             xPos = GameProperties.SCREEN_WIDTH;
+    //         }
 
-            // set x and y
-            setX(xPos);
-            setY(yPos);
+    //         // set x and y
+    //         setX(xPos);
+    //         setY(yPos);
 
-            splash();
+    //         splash();
 
-        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            xPos += GameProperties.CHARACTER_STEP;
-            frogLabel.setIcon(getFrogImageRight());
-            if (xPos >= GameProperties.SCREEN_WIDTH) {
-                xPos = -1 * getWidth();
-            }
+    //     } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+    //         xPos += GameProperties.CHARACTER_STEP;
+    //         frogLabel.setIcon(getFrogImageRight());
+    //         if (xPos >= GameProperties.SCREEN_WIDTH) {
+    //             xPos = -1 * getWidth();
+    //         }
 
-            // set x and y
-            setX(xPos);
-            setY(yPos);
+    //         // set x and y
+    //         setX(xPos);
+    //         setY(yPos);
 
-            splash();
+    //         splash();
 
-        } else {
-            System.out.println("Invalid operation");
-        }
+    //     } else {
+    //         System.out.println("Invalid operation");
+    //     }
 
-        //update graphic
-        frogLabel.setLocation(getX(), getY());
-    }
+    //     //update graphic
+    //     frogLabel.setLocation(getX(), getY());
+    // }
 
 	public void splash() {
         if (!isOnLog() && isInWater()) {
