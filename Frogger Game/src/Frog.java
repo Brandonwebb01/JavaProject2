@@ -1,4 +1,9 @@
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -6,13 +11,13 @@ import javax.swing.JLabel;
 
 //Player Character
 public class Frog extends Sprite {
-
+	final static int SERVER_PORT = 5556;
 	private JLabel frogLabel = new JLabel();
 	private ImageIcon frogImage;
 	private ImageIcon frogImageDown;
 	private ImageIcon frogImageRight;
 	private ImageIcon frogImageLeft;
-	//private Thread t;
+	private Thread t;
 	private ArrayList<Log[]> logs;
 
 	//Constructor
@@ -133,7 +138,7 @@ public class Frog extends Sprite {
             setX(xPos);
             setY(yPos);
 
-            //splash();
+            splash();
 
 
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
@@ -147,7 +152,7 @@ public class Frog extends Sprite {
             setX(xPos);
             setY(yPos);
 
-            //splash();
+            splash();
 
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             xPos -= GameProperties.CHARACTER_STEP;
@@ -160,7 +165,7 @@ public class Frog extends Sprite {
             setX(xPos);
             setY(yPos);
 
-            //splash();
+            splash();
 
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             xPos += GameProperties.CHARACTER_STEP;
@@ -173,7 +178,7 @@ public class Frog extends Sprite {
             setX(xPos);
             setY(yPos);
 
-            //splash();
+            splash();
 
         } else {
             System.out.println("Invalid operation");
@@ -181,7 +186,31 @@ public class Frog extends Sprite {
 
         //update graphic
         frogLabel.setLocation(getX(), getY());
+
+		//update server
+		try {
+			updateServer(e.getKeyCode());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     }
+
+	public void updateServer(int i) throws UnknownHostException, IOException {
+		//set up a communication socket
+		Socket s = new Socket("localhost", SERVER_PORT);
+		
+		//Initialize data stream to send data out
+		OutputStream outstream = s.getOutputStream();
+		PrintWriter out = new PrintWriter(outstream);
+
+		String command = "PLAYER 2 " + i + "\n";
+		System.out.println("Sending: " + command);
+		out.println(command);
+		out.flush();
+
+		s.close();
+	}
 
 	public void splash() {
         if (!isOnLog() && isInWater()) {

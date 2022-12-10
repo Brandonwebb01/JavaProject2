@@ -3,8 +3,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+//processing routine on server (B)
 public class FrogClientService implements Runnable {
-    private Socket s;
+
+	private Socket s;
 	private Scanner in;
 
 	public FrogClientService (Socket aSocket) {
@@ -30,27 +32,30 @@ public class FrogClientService implements Runnable {
 	public void processRequest () throws IOException {
 		//if next request is empty then return
 		while(true) {
+			// if(!in.hasNext( )){
+			// 	return;
+			// }
+			// String command = in.next();
+			// if (command.equals("Quit")) {
+			// 	return;
+			// } else {
+			// 	executeCommand(command);
+			// }
+
 			if(!in.hasNext( )){
 				return;
-			}
-			String command = in.next();
-			if (command.equals("Quit")) {
-				return;
 			} else {
-				executeCommand(command);
+				executeCommand(in);
 			}
 		}
 	}
 	
-	public void executeCommand(String command) throws IOException{
-	
-		
-		if ( command.equals("PLAYER")) {
+	public void executeCommand(Scanner command) throws IOException{
+		String PlayerNum = command.next();
+		if ( PlayerNum.equals("PLAYER")) {
 			int playerNo = in.nextInt();
-			String playerAction = in.next();
-			int playerX = in.nextInt();
-			int playerY = in.nextInt();
-			System.out.println("Player "+playerNo+" "+playerAction + " "+playerX+", "+playerY);
+			String test = in.next();
+			System.out.println(test);
 		}
-	}   
+	}
 }

@@ -6,13 +6,13 @@ import java.util.Scanner;
 
 
 //processing routine on server (B)
-public class FroggerServerService implements Runnable {
+public class ServerService implements Runnable {
 	final int CLIENT_PORT = 5656;
 
 	private Socket s;
 	private Scanner in;
 
-	public FroggerServerService (Socket aSocket) {
+	public ServerService (Socket aSocket) {
 		this.s = aSocket;
 	}
 	public void run() {
@@ -36,24 +36,20 @@ public class FroggerServerService implements Runnable {
 		while(true) {
 			if(!in.hasNext( )){
 				return;
-			}
-			String command = in.next();
-			if (command.equals("Quit")) {
-				return;
 			} else {
-				executeCommand(command);
+				executeCommand(in);
 			}
 		}
 	}
 	
-	public void executeCommand(String command) throws IOException{
-	
-		
-		if ( command.equals("PLAYER")) {
-
-			//int playerNo = in.nextInt();
-			String playerAction = in.next();
-			System.out.println("Player "+" moves "+playerAction);
+	public void executeCommand(Scanner command) throws IOException{
+		String PlayerNum = command.next();
+		if ( PlayerNum.equals("PLAYER")) {
+			int playerNo = in.nextInt();
+			int movementCommand = in.nextInt();
+			//String playerAction = in.next();
+			System.out.println("Player "+playerNo+" moves "+movementCommand);
+			//System.out.println("Command: " + command);
 			
 			
 			//send a response
@@ -63,12 +59,13 @@ public class FroggerServerService implements Runnable {
 			OutputStream outstream = s2.getOutputStream();
 			PrintWriter out = new PrintWriter(outstream);
 
-			String commandOut = "PLAYER " + playerAction + "\n";
-			System.out.println("Sending: " + commandOut);
+			String commandOut = "PLAYER "+ playerNo +" TESTESTEST 500 400\n";
+			//System.out.println("Sending: " + commandOut);
 			out.println(commandOut);
 			out.flush();
 				
 			s2.close();
+
 		}
 	}
 }

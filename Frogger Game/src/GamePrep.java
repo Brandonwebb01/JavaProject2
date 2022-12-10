@@ -5,14 +5,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class GamePrep extends JFrame implements KeyListener, ActionListener, Runnable {
-	
+	final static int CLIENT_PORT = 5656;
+	final static int SERVER_PORT = 5556;
 	//instances of our data classes (store position, etc here)
 	private Frog frog;
 	private Background background;
@@ -139,10 +145,34 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	// function to start the clientlistener thread
+	public void startClientListener() throws UnknownHostException, IOException {
+		final ServerSocket client = new ServerSocket(CLIENT_PORT);
+		Thread t1 = new Thread ( new Runnable () {
+			public void run ( ) {
+				synchronized(this) {
+					while(true) {
+						Socket s2 = null;
+						try {
+							s2 = client.accept();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						FrogClientService myService = new FrogClientService (s2);
+						Thread t = new Thread(myService);
+						t.start();
+					}
+				}
+			}
+		});
+		t1.start();
+	}
+
 	
-	public static void main( String args []) {
+	public static void main( String args []) throws UnknownHostException, IOException {
 		GamePrep myGame = new GamePrep();
 		myGame.setVisible(true);
+		myGame.startClientListener();
 	}
 
 	@Override
