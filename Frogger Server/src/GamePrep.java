@@ -11,7 +11,16 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 public class GamePrep extends JFrame implements KeyListener, ActionListener, Runnable {
+
+	final static int CLIENT_PORT = 5656;
+	final static int SERVER_PORT = 5556;
 	
 	//instances of our data classes (store position, etc here)
 	private Frog frog;

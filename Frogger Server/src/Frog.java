@@ -117,71 +117,79 @@ public class Frog extends Sprite {
         return false;
     }
 
-	// public void moveFrog(KeyEvent e) {
-    //     int xPos = getX();
-    //     int yPos = getY();
+	public void moveFrog(KeyEvent e) {
+        int xPos = getX();
+        int yPos = getY();
 
-    //     //modify position
-    //     if (e.getKeyCode() == KeyEvent.VK_UP) {
-    //         yPos -= GameProperties.CHARACTER_STEP;
-    //         frogLabel.setIcon(getFrogImage());
-    //         if (yPos + getHeight() <= 0) {
-    //             yPos = GameProperties.SCREEN_HEIGHT;
-    //         }
+        //modify position
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            yPos -= GameProperties.CHARACTER_STEP;
+            frogLabel.setIcon(getFrogImage());
+            if (yPos + getHeight() <= 0) {
+                yPos = GameProperties.SCREEN_HEIGHT;
+            }
 
-    //         // set x and y
-    //         setX(xPos);
-    //         setY(yPos);
+            // set x and y
+            setX(xPos);
+            setY(yPos);
 
-    //         splash();
+			System.out.println("Frog Positions: " + this.x + "," + this.y);
+
+            splash();
 
 
-    //     } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-    //         yPos += GameProperties.CHARACTER_STEP;
-    //         frogLabel.setIcon(getFrogImageDown());
-    //         if (yPos >= GameProperties.SCREEN_HEIGHT) {
-    //             yPos = -1 * getHeight();
-    //         }
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            yPos += GameProperties.CHARACTER_STEP;
+            frogLabel.setIcon(getFrogImageDown());
+            if (yPos >= GameProperties.SCREEN_HEIGHT) {
+                yPos = -1 * getHeight();
+            }
 
-    //         // set x and y
-    //         setX(xPos);
-    //         setY(yPos);
+            // set x and y
+            setX(xPos);
+            setY(yPos);
 
-    //         splash();
+			System.out.println("Frog Positions: " + this.x + "," + this.y);
 
-    //     } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-    //         xPos -= GameProperties.CHARACTER_STEP;
-    //         frogLabel.setIcon(getFrogImageLeft());
-    //         if (xPos + getWidth() <= 0) {
-    //             xPos = GameProperties.SCREEN_WIDTH;
-    //         }
+            splash();
 
-    //         // set x and y
-    //         setX(xPos);
-    //         setY(yPos);
+        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            xPos -= GameProperties.CHARACTER_STEP;
+            frogLabel.setIcon(getFrogImageLeft());
+            if (xPos + getWidth() <= 0) {
+                xPos = GameProperties.SCREEN_WIDTH;
+            }
 
-    //         splash();
+            // set x and y
+            setX(xPos);
+            setY(yPos);
 
-    //     } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-    //         xPos += GameProperties.CHARACTER_STEP;
-    //         frogLabel.setIcon(getFrogImageRight());
-    //         if (xPos >= GameProperties.SCREEN_WIDTH) {
-    //             xPos = -1 * getWidth();
-    //         }
+			System.out.println("Frog Positions: " + this.x + "," + this.y);
 
-    //         // set x and y
-    //         setX(xPos);
-    //         setY(yPos);
+            splash();
 
-    //         splash();
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            xPos += GameProperties.CHARACTER_STEP;
+            frogLabel.setIcon(getFrogImageRight());
+            if (xPos >= GameProperties.SCREEN_WIDTH) {
+                xPos = -1 * getWidth();
+            }
 
-    //     } else {
-    //         System.out.println("Invalid operation");
-    //     }
+            // set x and y
+            setX(xPos);
+            setY(yPos);
 
-    //     //update graphic
-    //     frogLabel.setLocation(getX(), getY());
-    // }
+			System.out.println("Frog Positions: " + this.x + "," + this.y);
+
+            splash();
+
+        } else {
+            System.out.println("Invalid operation");
+        }
+
+        //update graphic
+        frogLabel.setLocation(getX(), getY());
+    }
 
 	public void splash() {
         if (!isOnLog() && isInWater()) {

@@ -102,8 +102,9 @@ public class Car extends Sprite implements Runnable {
         }
 
 		while (this.moving) {
-			//moving instructions
 			
+			System.out.println("Car Positions: " + this.x + "," + this.y);
+
 			//get current x
             int currentX = this.x;
 

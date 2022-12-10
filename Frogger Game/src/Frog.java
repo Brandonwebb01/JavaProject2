@@ -133,7 +133,7 @@ public class Frog extends Sprite {
             setX(xPos);
             setY(yPos);
 
-            splash();
+            //splash();
 
 
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
@@ -147,7 +147,7 @@ public class Frog extends Sprite {
             setX(xPos);
             setY(yPos);
 
-            splash();
+            //splash();
 
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             xPos -= GameProperties.CHARACTER_STEP;
@@ -160,7 +160,7 @@ public class Frog extends Sprite {
             setX(xPos);
             setY(yPos);
 
-            splash();
+            //splash();
 
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             xPos += GameProperties.CHARACTER_STEP;
@@ -173,7 +173,7 @@ public class Frog extends Sprite {
             setX(xPos);
             setY(yPos);
 
-            splash();
+            //splash();
 
         } else {
             System.out.println("Invalid operation");

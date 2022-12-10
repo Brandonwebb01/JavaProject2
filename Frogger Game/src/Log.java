@@ -108,10 +108,11 @@ public class Log extends Sprite implements Runnable {
 				Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }			
+            }	
         }
 		
 		while (this.moving) {
+			// System.out.println("Log Positions: " + this.x + "," + this.y);
 
 		if (this.reverseDirection == false) {
 				

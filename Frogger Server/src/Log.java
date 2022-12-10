@@ -112,7 +112,7 @@ public class Log extends Sprite implements Runnable {
         }
 		
 		while (this.moving) {
-
+			System.out.println("Log Positions: " + this.x + "," + this.y);
 		if (this.reverseDirection == false) {
 				
 				//get current x
