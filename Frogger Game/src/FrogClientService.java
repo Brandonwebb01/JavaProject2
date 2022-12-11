@@ -16,7 +16,7 @@ public class FrogClientService implements Runnable {
 		
 		try {
 			in = new Scanner(s.getInputStream());
-			processRequest( );
+			processRequest();
 		} catch (IOException e){
 			e.printStackTrace();
 		} finally {
@@ -32,16 +32,6 @@ public class FrogClientService implements Runnable {
 	public void processRequest () throws IOException {
 		//if next request is empty then return
 		while(true) {
-			// if(!in.hasNext( )){
-			// 	return;
-			// }
-			// String command = in.next();
-			// if (command.equals("Quit")) {
-			// 	return;
-			// } else {
-			// 	executeCommand(command);
-			// }
-
 			if(!in.hasNext( )){
 				return;
 			} else {
@@ -51,11 +41,15 @@ public class FrogClientService implements Runnable {
 	}
 	
 	public void executeCommand(Scanner command) throws IOException{
-		String PlayerNum = command.next();
-		if ( PlayerNum.equals("PLAYER")) {
+		String PlayerName = command.next();
+		if ( PlayerName.equals("PLAYER")) {
 			int playerNo = in.nextInt();
 			String test = in.next();
 			System.out.println(test);
+		} else if (PlayerName.equals("CARLOC")) {
+			System.out.println("X Position: " + command.next() + " Y Position: " + command.next() + " Car ID: " + command.next() + " Car Number: " + command.next());
+			// System.out.println(command.nextInt());
+			// System.out.println(command.nextInt());
 		}
 	}
 }

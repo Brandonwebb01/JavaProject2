@@ -89,17 +89,6 @@ public class Frog extends Sprite {
 		this.logs = logs;
 	}
 
-	// @Override
-	// public void run() {			
-	// 	t = new Thread(this, "Frog Logic Thread");
-	// 	t.start();
-	// }
-	
-	// public void startFrogLogic() {
-	// 	t = new Thread(this, "Frog Logic Thread");
-	// 	t.start();
-	// }
-
 	// method to check if frog is in water
 	public boolean isInWater() {
 		if (getY() > 35 && getY() < 350) {

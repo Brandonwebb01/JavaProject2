@@ -32,6 +32,8 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 	private Car[] cars4 = new Car[3];
 	private Car[] cars5 = new Car[3];
 
+
+
 	//array of logs
 	private Log[] logs = new Log[3];
 	private Log[] logs2 = new Log[3];
@@ -192,9 +194,6 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 		//distinguish among buttons
 		if (e.getSource() == StartButton) {
 			
-//			SqlDatabase sql = new SqlDatabase();
-//			System.out.println(sql.getScore());
-			
 			//hide start button when game starts
 			StartButton.setVisible(false);
 			RestartButton.setVisible(true);
@@ -230,13 +229,21 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 
 			frog.setLogs(logsList);
 			// frog.run();
+
+			//update server
+		try {
+			updateServer();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		}
 		else if (e.getSource() == RestartButton) {
 			StartButton.setVisible(true);
 			RestartButton.setVisible(false);
 			SaveScoreButton.setVisible(false);
 			frog.resetFrog();
-			//stop all threads
+			// stop all threads
 			for (int i = 0; i < cars.length; i++) {
 				cars[i].stopCar();
 				cars2[i].stopCar();
@@ -258,7 +265,23 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 		}
 	}
 
-	//create logs
+	public void updateServer() throws UnknownHostException, IOException {
+		//set up a communication socket
+		Socket s = new Socket("localhost", SERVER_PORT);
+		
+		//Initialize data stream to send data out
+		OutputStream outstream = s.getOutputStream();
+		PrintWriter out = new PrintWriter(outstream);
+
+		String command = "START" + "\n";
+		System.out.println("Sending: " + command);
+		out.println(command);
+		out.flush();
+
+		s.close();
+	}
+
+	//create cars
 	public void createCars(Car[] car, int x, int y) {
         for (int i = 0; i < car.length; i++) {
             car[i] = new Car();

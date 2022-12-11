@@ -11,10 +11,42 @@ public class ServerService implements Runnable {
 
 	private Socket s;
 	private Scanner in;
+	private Frog frog;
+	private int carNum = 0;
+
+	private CarServer[] cars = new CarServer[3];
+	private CarServer[] cars2 = new CarServer[3];
+	private CarServer[] cars3 = new CarServer[3];
+	private CarServer[] cars4 = new CarServer[3];
+	private CarServer[] cars5 = new CarServer[3];
 
 	public ServerService (Socket aSocket) {
 		this.s = aSocket;
 	}
+
+	public void createCars(CarServer[] car, int x, int y) {
+        for (int i = 0; i < car.length; i++) {
+            car[i] = new CarServer();
+            car[i].setY(y);
+            car[i].setX(x);
+            car[i].setFrog(frog);
+        }
+    }
+
+	public void showCarsArray(CarServer[] carArray) {
+		for (int i = 0; i < carArray.length; i++) {
+			carArray[i].setCarID(i);
+			carArray[i].setCarNumber(carNum++);
+			if ( carArray[i].getMoving()) {
+				carArray[i].setVisible(false);
+				carArray[i].setMoving(false);
+			} else {
+				carArray[i].setVisible(true);
+				carArray[i].startMoving();
+			}
+		}
+	}
+
 	public void run() {
 		
 		try {
@@ -43,13 +75,11 @@ public class ServerService implements Runnable {
 	}
 	
 	public void executeCommand(Scanner command) throws IOException{
-		String PlayerNum = command.next();
-		if ( PlayerNum.equals("PLAYER")) {
+		String PlayerName = command.next();
+		if ( PlayerName.equals("PLAYER")) {
 			int playerNo = in.nextInt();
 			int movementCommand = in.nextInt();
-			//String playerAction = in.next();
 			System.out.println("Player "+playerNo+" moves "+movementCommand);
-			//System.out.println("Command: " + command);
 			
 			
 			//send a response
@@ -59,13 +89,26 @@ public class ServerService implements Runnable {
 			OutputStream outstream = s2.getOutputStream();
 			PrintWriter out = new PrintWriter(outstream);
 
-			String commandOut = "PLAYER "+ playerNo +" TESTESTEST 500 400\n";
-			//System.out.println("Sending: " + commandOut);
+			String commandOut = "PLAYER "+ playerNo +" " + movementCommand + "\n";
 			out.println(commandOut);
 			out.flush();
 				
 			s2.close();
+		} else if (PlayerName.equals("START")) {
 
+			createCars(cars, -75, 450);
+			createCars(cars2, -75, 510);
+			createCars(cars3, -75, 570);
+			createCars(cars4, -75, 630);
+			createCars(cars5, -75, 690);
+
+			showCarsArray(cars);
+			showCarsArray(cars2);
+			showCarsArray(cars3);
+			showCarsArray(cars4);
+			showCarsArray(cars5);
+		} else {
+			System.out.println("Invalid command");
 		}
 	}
 }

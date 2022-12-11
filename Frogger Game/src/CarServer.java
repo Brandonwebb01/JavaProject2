@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 //this is the object that as the thread
-public class Car extends Sprite implements Runnable {
+public class CarServer extends Sprite implements Runnable {
 	final static int CLIENT_PORT = 5656;
 	private Boolean visible, moving;
 	private Thread t;
@@ -19,7 +19,7 @@ public class Car extends Sprite implements Runnable {
 	private int carID;
 	private int carNumber;
 	
-	public Car() {
+	public CarServer() {
 		super(0, 0, 41, 75, "car-sprite.png");
 		this.visible = true;
 		this.moving = false;
@@ -98,6 +98,17 @@ public class Car extends Sprite implements Runnable {
 	public void run() {
 		System.out.println("Thread started");
 
+		Socket s2 = null;
+			try {
+				s2 = new Socket("localhost", CLIENT_PORT);
+			} catch (UnknownHostException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+
 		this.moving = true;
 
 		if (getCarID() == 1) {
@@ -136,16 +147,32 @@ public class Car extends Sprite implements Runnable {
             this.setX(currentX);
 			
 			 //check for collision
-            if ( this.visible ) {
-                if (isColliding(Frog)) {
-					Frog.resetFrog();
-                    System.out.println("BOOM!");
-                }
-            }
+            // if ( this.visible ) {
+            //     if (isColliding(Frog)) {
+			// 		Frog.resetFrog();
+            //         System.out.println("BOOM!");
+            //     }
+            // }
 			
 			//update Character2Label
-			this.CarLabel.setLocation(this.x, this.y);
+			//this.CarLabel.setLocation(this.x, this.y);
 			
+			try {
+				
+				//Initialize data stream to send data out
+				OutputStream outstream = s2.getOutputStream();
+				PrintWriter out = new PrintWriter(outstream);
+
+				String commandOut = "CARLOC " + this.x + " " + this.y + " " + getCarID() + " " + getCarNumber();
+				out.println(commandOut);
+				out.flush();
+					
+
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
 			//pause
 			try {
 				Thread.sleep(100);
@@ -154,5 +181,12 @@ public class Car extends Sprite implements Runnable {
 			}
 		}
 		System.out.println("End Thread");
+		try {
+			s2.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	}
 }
+
