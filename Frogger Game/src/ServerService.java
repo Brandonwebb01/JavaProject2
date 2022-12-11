@@ -124,11 +124,6 @@ public class ServerService implements Runnable {
 			showCarsArray(cars4);
 			showCarsArray(cars5);
 
-			for (int i = 0; i < cars.length; i++) {
-				String commandOut = "CAR "+ cars[i].getX() +" " + cars[i].getY() + " " + cars[i].getCarID() + " " + cars[i].getCarNumber() + "\n";
-				sendResult(commandOut);
-			}
-
 		} else if (PlayerName.equals("KEYPRESSED")) {
 			int movementCommand = command.nextInt();
 			int frogX = command.nextInt();

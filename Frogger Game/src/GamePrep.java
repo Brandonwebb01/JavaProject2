@@ -26,6 +26,9 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 	private SqlDatabase sql = new SqlDatabase();
 	public static int frogX = 450;
 	public static int frogY = 750;
+	public static int carX;
+	public static int carY;
+	int carNum;
 
 	//array of cars
 	private Car[] cars = new Car[3];
@@ -46,8 +49,9 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 	
 	//graphic elements
 	private Container content;
-	private JLabel carLabel, backgroundLabel, logLabel, scoreLabel, oldScoreLabel;
+	private JLabel backgroundLabel, logLabel, scoreLabel, oldScoreLabel;
 	public static JLabel frogLabel = new JLabel();
+	public static JLabel carLabel = new JLabel();
 	private ImageIcon carImage, backgroundImage, logImage, frogImage, frogImageDown, frogImageRight, frogImageLeft;
 	private Boolean runThread = true;
 	
@@ -177,6 +181,10 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 		frogLabel.setLocation(x, y);
 	}
 
+	public static void updateCarLabelPosition(int x, int y) {
+		carLabel.setLocation(x, y);
+	}
+
 	public static void main( String args []) throws UnknownHostException, IOException {
 		GamePrep myGame = new GamePrep();
 		myGame.setVisible(true);
@@ -191,6 +199,16 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 	public static void setFrogY(int y) {
 		frogY = y;
 		frogLabel.setLocation(frogX, frogY);
+	}
+
+	public static void setCarX(int x) {
+		carX = x;
+		carLabel.setLocation(carX, carY);
+	}
+
+	public static void setCarY(int y) {
+		carY = y;
+		carLabel.setLocation(carX, carY);
 	}
 
 	public void updateServerKeypress(int keypressed) throws UnknownHostException, IOException {
@@ -270,12 +288,12 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 			score = 5000;
 			scoreLabel.setText("Score: " + score);
 			scoreLogic();
-
-			showCarsArray(cars);
-			showCarsArray(cars2);
-			showCarsArray(cars3);
-			showCarsArray(cars4);
-			showCarsArray(cars5);
+			
+			// showCarsArray(cars);
+			// showCarsArray(cars2);
+			// showCarsArray(cars3);
+			// showCarsArray(cars4);
+			// showCarsArray(cars5);
 
 			//list of log arrays for frog class
 			ArrayList<Log[]> logsList = new ArrayList<Log[]>();
@@ -388,12 +406,13 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 	public void showCarsArray(Car[] carArray) {
 		for (int i = 0; i < carArray.length; i++) {
 			carArray[i].setCarID(i);
+			carArray[i].setCarNumber(carNum++);
 			if ( carArray[i].getMoving()) {
 				carArray[i].setVisible(false);
 				carArray[i].setMoving(false);
 			} else {
 				carArray[i].setVisible(true);
-				carArray[i].startMoving();
+				// carArray[i].startMoving();
 			}
 		}
 	}
