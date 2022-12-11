@@ -5,7 +5,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -210,6 +213,13 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 			showCarsArray(cars3);
 			showCarsArray(cars4);
 			showCarsArray(cars5);
+			//request car positions from server
+			try {
+				updateServer();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			//list of log arrays for frog class
 			ArrayList<Log[]> logsList = new ArrayList<Log[]>();
@@ -229,14 +239,7 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 
 			frog.setLogs(logsList);
 			// frog.run();
-
-			//update server
-		try {
-			updateServer();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+			
 		}
 		else if (e.getSource() == RestartButton) {
 			StartButton.setVisible(true);
