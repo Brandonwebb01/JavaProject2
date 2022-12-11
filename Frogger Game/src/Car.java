@@ -25,6 +25,10 @@ public class Car extends Sprite implements Runnable {
     public void setCarID(int carID) {
         this.carID = carID;
     }
+
+	public JLabel getCarLabel() {
+		return CarLabel;
+	}
 	
 	public void setCarLabel(JLabel temp) {
 		this.CarLabel = temp;

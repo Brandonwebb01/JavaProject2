@@ -26,10 +26,11 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 	private SqlDatabase sql = new SqlDatabase();
 	public static int frogX = 450;
 	public static int frogY = 750;
-	public static int carX;
-	public static int carY;
 	int carNum;
 
+
+	//array list for cars
+	public static ArrayList<Car[]> carsList = new ArrayList<Car[]>();
 	//array of cars
 	private Car[] cars = new Car[3];
 	private Car[] cars2 = new Car[3];
@@ -181,8 +182,18 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 		frogLabel.setLocation(x, y);
 	}
 
-	public static void updateCarLabelPosition(int x, int y) {
-		carLabel.setLocation(x, y);
+	public static void updateCarArrayPosition(int x, int y, int carNum) {
+		// loop over carsList and update the position of the car if it matches carNum
+		for (Car[] car : carsList) { 
+			for (int i = 0; i < car.length; i++) {
+				if (carNum == car[i].getCarNumber()) {
+					System.out.println("Setting car position: " + carNum + " to " + x + ", " + y);
+					car[i].getCarLabel().setLocation(x, y);
+					car[i].setX(x);
+					car[i].setY(y);
+				}
+			}
+		}
 	}
 
 	public static void main( String args []) throws UnknownHostException, IOException {
@@ -199,16 +210,6 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 	public static void setFrogY(int y) {
 		frogY = y;
 		frogLabel.setLocation(frogX, frogY);
-	}
-
-	public static void setCarX(int x) {
-		carX = x;
-		carLabel.setLocation(carX, carY);
-	}
-
-	public static void setCarY(int y) {
-		carY = y;
-		carLabel.setLocation(carX, carY);
 	}
 
 	public void updateServerKeypress(int keypressed) throws UnknownHostException, IOException {
@@ -289,11 +290,18 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 			scoreLabel.setText("Score: " + score);
 			scoreLogic();
 			
-			// showCarsArray(cars);
-			// showCarsArray(cars2);
-			// showCarsArray(cars3);
-			// showCarsArray(cars4);
-			// showCarsArray(cars5);
+			showCarsArray(cars);
+			showCarsArray(cars2);
+			showCarsArray(cars3);
+			showCarsArray(cars4);
+			showCarsArray(cars5);
+
+			//carlist
+			carsList.add(cars);
+			carsList.add(cars2);
+			carsList.add(cars3);
+			carsList.add(cars4);
+			carsList.add(cars5);
 
 			//list of log arrays for frog class
 			ArrayList<Log[]> logsList = new ArrayList<Log[]>();

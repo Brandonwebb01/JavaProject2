@@ -48,14 +48,11 @@ public class FrogClientService implements Runnable {
 			System.out.println(test);
 		} else if (PlayerName.equals("CARLOC")) {
 			//System.out.println("X Position: " + command.next() + " Y Position: " + command.next() + " Car ID: " + command.next() + " Car Number: " + command.next());
-			//update car position
 			int carX = command.nextInt();
 			int carY = command.nextInt();
+			int carNumber = command.nextInt();
+			GamePrep.updateCarArrayPosition(carX, carY, carNumber);
 
-			GamePrep.updateCarLabelPosition(carX, carY);
-			GamePrep.setCarX(carX);
-			GamePrep.setCarY(carY);
-			
 		 }else if (PlayerName.equals("FROGLOC")) {
 			int frogX = command.nextInt();
 			int frogY = command.nextInt();
