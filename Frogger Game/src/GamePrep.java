@@ -24,6 +24,8 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 	private Background background;
 	private int score, finalScore;
 	private SqlDatabase sql = new SqlDatabase();
+	public static int frogX = 450;
+	public static int frogY = 750;
 
 	//array of cars
 	private Car[] cars = new Car[3];
@@ -44,8 +46,9 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 	
 	//graphic elements
 	private Container content;
-	private JLabel frogLabel, carLabel, backgroundLabel, logLabel, scoreLabel, oldScoreLabel;
-	private ImageIcon carImage, backgroundImage, logImage;
+	private JLabel carLabel, backgroundLabel, logLabel, scoreLabel, oldScoreLabel;
+	public static JLabel frogLabel = new JLabel();
+	private ImageIcon carImage, backgroundImage, logImage, frogImage, frogImageDown, frogImageRight, frogImageLeft;
 	private Boolean runThread = true;
 	
 	//buttons
@@ -170,11 +173,41 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 		t1.start();
 	}
 
-	
+	public static void updateFrogLabelPosition(int x, int y) {
+		frogLabel.setLocation(x, y);
+	}
+
 	public static void main( String args []) throws UnknownHostException, IOException {
 		GamePrep myGame = new GamePrep();
 		myGame.setVisible(true);
 		myGame.startClientListener();
+	}
+
+	public static void setFrogX(int x) {
+		frogX = x;
+		frogLabel.setLocation(frogX, frogY);
+	}
+
+	public static void setFrogY(int y) {
+		frogY = y;
+		frogLabel.setLocation(frogX, frogY);
+	}
+
+	public void updateServerKeypress(int keypressed) throws UnknownHostException, IOException {
+		//set up a communication socket
+		Socket s = new Socket("localhost", SERVER_PORT);
+		
+		//Initialize data stream to send data out
+		OutputStream outstream = s.getOutputStream();
+		PrintWriter out = new PrintWriter(outstream);
+
+		String command = "KEYPRESSED " + keypressed + " " + frogX + " " + frogY + "\n";
+		//String command = "PLAYER 2 " + "32" + "\n";
+		System.out.println("Sending: " + command);
+		out.println(command);
+		out.flush();
+
+		s.close();
 	}
 
 	@Override
@@ -183,11 +216,44 @@ public class GamePrep extends JFrame implements KeyListener, ActionListener, Run
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		frog.moveFrog(e);
+		// if keypress is up, down, left or right send to server
+		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			try {
+				updateServerKeypress(e.getKeyCode());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                frogImage = new ImageIcon(getClass().getResource(frog.getImage()));
+                frog.getFrogLabel().setIcon(frogImage);
+                break;
+            case KeyEvent.VK_DOWN:
+                frogImageDown = new ImageIcon(getClass().getResource("frog-sprite-down.png"));
+                frog.getFrogLabel().setIcon(frogImageDown);
+                break;
+            case KeyEvent.VK_LEFT:
+                frogImageLeft = new ImageIcon(getClass().getResource("frog-sprite-left.png"));
+                frog.getFrogLabel().setIcon(frogImageLeft);
+                break;
+            case KeyEvent.VK_RIGHT:
+                frogImageRight = new ImageIcon(getClass().getResource("frog-sprite-right.png"));
+                frog.getFrogLabel().setIcon(frogImageRight);
+                break;
+        }
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {}	
+	public void keyReleased(KeyEvent e) {
+		System.out.println("Frog X: " + frogX + "  Frog Y: " + frogY);
+		System.out.println("Frog location: " + frogLabel.getLocation());
+
+		frog.setX(frogX);
+		frog.setY(frogY);
+		frog.getFrogLabel().setLocation(frog.getX(), frog.getY());
+	}	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

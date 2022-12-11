@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 
@@ -73,6 +74,21 @@ public class ServerService implements Runnable {
 			}
 		}
 	}
+
+	public void sendResult(String commandOut) throws UnknownHostException, IOException {
+		//send a response
+		Socket s2 = new Socket("localhost", CLIENT_PORT);
+
+		//Initialize data stream to send data out
+		OutputStream outstream = s2.getOutputStream();
+		PrintWriter out = new PrintWriter(outstream);
+
+		//String commandOut = "PLAYER "+ playerNo +" " + movementCommand + "\n";
+		out.println(commandOut);
+		out.flush();
+			
+		s2.close();
+	}
 	
 	public void executeCommand(Scanner command) throws IOException{
 		String PlayerName = command.next();
@@ -107,6 +123,41 @@ public class ServerService implements Runnable {
 			showCarsArray(cars3);
 			showCarsArray(cars4);
 			showCarsArray(cars5);
+
+			for (int i = 0; i < cars.length; i++) {
+				String commandOut = "CAR "+ cars[i].getX() +" " + cars[i].getY() + " " + cars[i].getCarID() + " " + cars[i].getCarNumber() + "\n";
+				sendResult(commandOut);
+			}
+
+		} else if (PlayerName.equals("KEYPRESSED")) {
+			int movementCommand = command.nextInt();
+			int frogX = command.nextInt();
+			int frogY = command.nextInt();
+
+			if (movementCommand == 38) {
+				frogY -= GameProperties.CHARACTER_STEP;
+				if (frogY + 39 <= 0) {
+					frogY = GameProperties.SCREEN_HEIGHT;
+				}
+			} else if (movementCommand == 40) {
+				frogY += GameProperties.CHARACTER_STEP;
+				if (frogY >= GameProperties.SCREEN_HEIGHT) {
+					frogY = -1 * 39;
+				}
+			} else if (movementCommand == 37) {
+				frogX -= GameProperties.CHARACTER_STEP;
+				if (frogX + 50 <= 0) {
+					frogX = GameProperties.SCREEN_WIDTH;
+				}
+			} else if (movementCommand == 39) {
+				frogX += GameProperties.CHARACTER_STEP;
+				if (frogX >= GameProperties.SCREEN_WIDTH) {
+					frogX = -1 * 50;
+				}
+			}
+			String returnLocationResults = "FROGLOC " +  frogX + " " + frogY;
+			System.out.println(returnLocationResults);
+			sendResult(returnLocationResults);
 		} else {
 			System.out.println("Invalid command");
 		}

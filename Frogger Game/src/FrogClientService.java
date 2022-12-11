@@ -47,9 +47,16 @@ public class FrogClientService implements Runnable {
 			String test = in.next();
 			System.out.println(test);
 		} else if (PlayerName.equals("CARLOC")) {
-			System.out.println("X Position: " + command.next() + " Y Position: " + command.next() + " Car ID: " + command.next() + " Car Number: " + command.next());
-			// System.out.println(command.nextInt());
-			// System.out.println(command.nextInt());
+			//System.out.println("X Position: " + command.next() + " Y Position: " + command.next() + " Car ID: " + command.next() + " Car Number: " + command.next());
+		 }else if (PlayerName.equals("FROGLOC")) {
+			int frogX = command.nextInt();
+			int frogY = command.nextInt();
+
+			GamePrep.updateFrogLabelPosition(frogX, frogY);
+			GamePrep.setFrogX(frogX);
+			GamePrep.setFrogY(frogY);
 		}
+
+
 	}
 }
