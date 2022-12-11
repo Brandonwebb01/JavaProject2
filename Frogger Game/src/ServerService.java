@@ -107,22 +107,6 @@ public class ServerService implements Runnable {
 			showCarsArray(cars3);
 			showCarsArray(cars4);
 			showCarsArray(cars5);
-
-			//send x, y, car id, and car number to client
-			Socket s2 = new Socket("localhost", CLIENT_PORT);
-
-			//Initialize data stream to send data out
-			OutputStream outstream = s2.getOutputStream();
-			PrintWriter out = new PrintWriter(outstream);
-
-			for (int i = 0; i < cars.length; i++) {
-				String commandOut = "CAR "+ cars[i].getX() +" " + cars[i].getY() + " " + cars[i].getCarID() + " " + cars[i].getCarNumber() + "\n";
-				out.println(commandOut);
-				out.flush();
-			}
-
-			s2.close();
-
 		} else {
 			System.out.println("Invalid command");
 		}

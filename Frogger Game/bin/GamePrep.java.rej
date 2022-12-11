@@ -1,0 +1,15 @@
+diff a/Frogger Game/src/GamePrep.java b/Frogger Game/src/GamePrep.java	(rejected hunks)
+@@ -213,6 +213,13 @@
+ 			showCarsArray(cars3);
+ 			showCarsArray(cars4);
+ 			showCarsArray(cars5);
++			//request car positions from server
++			try {
++				updateServer();
++			} catch (IOException e1) {
++				// TODO Auto-generated catch block
++				e1.printStackTrace();
++			}
+ 
+ 			//list of log arrays for frog class
+ 			ArrayList<Log[]> logsList = new ArrayList<Log[]>();
